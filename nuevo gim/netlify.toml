@@ -1,0 +1,25 @@
+# Configuración de Netlify
+
+[build]
+  publish = "."
+
+# Headers de seguridad — protegen tu app
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Evita que tu app se cargue dentro de iframes de otros sitios
+    X-Frame-Options = "DENY"
+    # Evita que el navegador intente adivinar el tipo de contenido
+    X-Content-Type-Options = "nosniff"
+    # Protección XSS básica
+    X-XSS-Protection = "1; mode=block"
+    # Solo carga recursos de orígenes seguros
+    Content-Security-Policy = "default-src 'self' https://api.anthropic.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.anthropic.com;"
+    # No envía la URL de tu app como referrer a otros sitios
+    Referrer-Policy = "no-referrer"
+
+# Redirige todo al index.html (necesario para PWA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
